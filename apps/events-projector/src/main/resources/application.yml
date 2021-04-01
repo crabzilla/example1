@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: example1-events-projector
+  server:
+    port: 8081
+
+nats:
+  cluster-id: test-cluster
+  client-id: events-projector
+  user: al
+  password: alisson
+  host: localhost
+  port: 4222

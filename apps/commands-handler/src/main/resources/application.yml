@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: example1-commands-handler
+  server:
+    port: 8080
+
+nats:
+  cluster-id: test-cluster
+  client-id: command-handler
+  user: al
+  password: alisson
+  host: localhost
+  port: 4222

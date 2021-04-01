@@ -1,0 +1,19 @@
+micronaut:
+  application:
+    name: example1-events-publisher
+  server:
+    port: 8082
+  endpoints:
+    all:
+      enabled: true
+      sensitive: false
+    stop:
+      enabled: false
+
+nats:
+  cluster-id: test-cluster
+  client-id: events-publisher
+  user: al
+  password: alisson
+  host: localhost
+  port: 4222
