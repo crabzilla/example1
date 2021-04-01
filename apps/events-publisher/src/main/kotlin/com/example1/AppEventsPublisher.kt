@@ -37,7 +37,11 @@ class AppEventsPublisher(private val nats: StreamingConnection) : EventsPublishe
                 lastPublished = event.eventId
             } catch (e: Exception) {
                 log.error("When publishing $event", e)
-                promise.fail(e)
+                if (lastPublished == null) {
+                    promise.fail(e)
+                } else {
+                    promise.complete(lastPublished)
+                }
                 error = true
                 break
             }
