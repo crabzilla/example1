@@ -12,7 +12,7 @@ micronaut {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":write-model"))
     implementation(project(":read-model"))
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut:micronaut-runtime")

@@ -9,7 +9,7 @@
 
 rootProject.name = "example1"
 
-include("core", "read-model")
+include("write-model", "read-model")
 
 include(":apps:commands-handler")
 include(":apps:events-projector")
