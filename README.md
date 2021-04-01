@@ -18,7 +18,7 @@ mvn clean install -DskipTests=true
 3. Now clone this demo
 
 ```bash
-git clone https://github.com/rodolfodpk/example1
+git clone https://github.com/crabzilla/example1
 cd example1
 ```
 
@@ -41,25 +41,25 @@ gradle build
 6. Run command-handler application
 
 ```bash
-cd example1/apps/command-handler
+cd apps/command-handler
 gradle run
 ```
 
 7. Run events-projector application
 
 ```bash
-cd example1/apps/events-projector
+cd apps/events-projector
 gradle run
 ```
 
 8. Run events-publisher application
 
 ```bash
-cd example1/apps/events-publisher
+cd apps/events-publisher
 gradle run
 ```
 
-7. Finally, make a request:
+9. Finally, make a request:
 
 ```bash
 wget -O- http://localhost:8080/hello
