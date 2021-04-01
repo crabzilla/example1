@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+
+  nats:
+    image: 'nats-streaming'
+    expose:
+      - "4222"
+      - "6222"
+      - "8222"
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    hostname: nats-streaming-server
+
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: pwd1
+#        PGDATA: /data/postgres
+    volumes:
+#        - /data/postgres:/data/postgres
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+#      networks:
+#        - postgres
+    restart: unless-stopped
+
