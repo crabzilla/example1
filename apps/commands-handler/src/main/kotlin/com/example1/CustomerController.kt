@@ -3,10 +3,9 @@ package com.example1
 import com.example1.core.customer.Customer
 import com.example1.core.customer.CustomerCommand
 import com.example1.core.customer.CustomerEvent
-import io.github.crabzilla.core.CommandController
-import io.github.crabzilla.core.CommandMetadata
-import io.github.crabzilla.core.SessionData
 import io.github.crabzilla.core.StatefulSession
+import io.github.crabzilla.stack.CommandController
+import io.github.crabzilla.stack.CommandMetadata
 import io.micronaut.context.annotation.Context
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
@@ -26,7 +25,7 @@ class CustomerController(private val controller: CommandController<Customer, Cus
     val id = AtomicInteger()
 
     @Get("/")
-    fun index(): Single<SessionData> {
+    fun index(): Single<StatefulSession.SessionData> {
         val newId = id.incrementAndGet()
         log.info("*** Will generate a new command $newId")
         val metadata = CommandMetadata(newId)

@@ -2,8 +2,8 @@ package com.example1
 
 
 import io.github.crabzilla.core.BoundedContextName
-import io.github.crabzilla.core.EventRecord
-import io.github.crabzilla.core.EventsPublisher
+import io.github.crabzilla.stack.EventRecord
+import io.github.crabzilla.stack.EventsPublisher
 import io.micronaut.context.annotation.Context
 import io.nats.streaming.StreamingConnection
 import io.vertx.core.Future

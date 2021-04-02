@@ -5,8 +5,8 @@ import com.example1.core.customer.CustomerCommand
 import com.example1.core.customer.CustomerEvent
 import com.example1.core.customer.customerConfig
 import io.github.crabzilla.core.BoundedContextName
-import io.github.crabzilla.core.CommandController
 import io.github.crabzilla.pgc.CommandControllerFactory
+import io.github.crabzilla.stack.CommandController
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
