@@ -1,5 +1,6 @@
 plugins {
     id("io.micronaut.application") version "1.4.2"
+    id("com.github.johnrengelman.shadow")
     id("com.google.cloud.tools.jib") version "0.9.0"
 }
 

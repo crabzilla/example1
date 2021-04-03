@@ -3,11 +3,9 @@ package com.example1.infra
 import io.micronaut.context.annotation.ConfigurationProperties
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
-import io.micronaut.context.annotation.Prototype
 import io.vertx.core.Vertx
 import io.vertx.pgclient.PgConnectOptions
 import io.vertx.pgclient.PgPool
-import io.vertx.pgclient.pubsub.PgSubscriber
 import io.vertx.sqlclient.PoolOptions
 import javax.inject.Named
 

@@ -14,8 +14,10 @@ include("write-model", "read-model")
 include(":apps:commands-handler")
 include(":apps:events-projector")
 include(":apps:events-publisher")
+include(":apps:queries-handler")
 
 project(":apps:commands-handler").projectDir = file("apps/commands-handler")
 project(":apps:events-projector").projectDir = file("apps/events-projector")
 project(":apps:events-publisher").projectDir = file("apps/events-publisher")
+project(":apps:queries-handler").projectDir = file("apps/queries-handler")
 

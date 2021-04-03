@@ -1,5 +1,6 @@
 plugins {
     id("io.micronaut.application") version "1.4.2"
+    id("com.github.johnrengelman.shadow")
 }
 
 micronaut {

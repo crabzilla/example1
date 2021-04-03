@@ -1,4 +1,4 @@
-package com.example1.projectors.customer
+package com.example1.customers
 
 import com.example1.infra.handleVoid
 import io.vertx.core.Future

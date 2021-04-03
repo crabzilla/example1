@@ -1,7 +1,7 @@
-package com.example1.projectors.customer
+package com.example1.customers
 
-import com.example1.jooq.tables.CustomerSummary
 import com.example1.infra.handleVoid
+import com.example1.jooq.tables.CustomerSummary
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.zero88.jooqx.DSLAdapter

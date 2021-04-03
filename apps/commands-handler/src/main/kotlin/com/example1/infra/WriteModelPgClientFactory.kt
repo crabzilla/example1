@@ -7,14 +7,20 @@ import io.vertx.core.Vertx
 import io.vertx.pgclient.PgConnectOptions
 import io.vertx.pgclient.PgPool
 import io.vertx.sqlclient.PoolOptions
+import org.slf4j.LoggerFactory
 import javax.inject.Named
 
 @Factory
 class WriteModelPgClientFactory {
 
+    companion object {
+        private val log = LoggerFactory.getLogger(WriteModelPgClientFactory::class.java)
+    }
+
     @Context
     @Named("writeDb")
     fun writeDb(vertx: Vertx, config: WriteDbConfig): PgPool {
+        log.info("Will connect to ${config.host}:${config.port}")
         val options = PgConnectOptions()
                 .setPort(config.port!!)
                 .setHost(config.host)
@@ -27,7 +33,7 @@ class WriteModelPgClientFactory {
 
     @ConfigurationProperties("write.database")
     class WriteDbConfig  {
-        var host: String? = "0.0.0.0"
+        var host: String? = "localhost"
         var port: Int? = 5432
         var dbName: String? = "example1_write"
         var dbUser: String? = "user1"

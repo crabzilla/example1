@@ -1,4 +1,4 @@
-package com.example1
+package com.example1.customer
 
 import com.example1.core.customer.Customer
 import com.example1.core.customer.CustomerCommand
@@ -12,7 +12,6 @@ import io.micronaut.http.annotation.Get
 import io.reactivex.Single
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
-import javax.inject.Inject
 
 @Controller("/hello")
 @Context
