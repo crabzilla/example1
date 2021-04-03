@@ -22,7 +22,7 @@
 
 ### Runtime architecture
 * commands-handler and queries-handler apps can scale horizontally (many instances) with independence. To attend 80% reads and 20% writes scenarios, for example.
-* events-publisher and events-projector apps should have only one active instance process. Vertical scalability. For resilience, these processes could work with more instances but only with an efficient active/standby mode. I'm willing to implement it with clustered Vertx.
+* events-publisher and events-projector apps should have only one active instance process. Vertical scalability. Single writer principle. For resilience, these processes could work with more instances but only with an efficient active/standby mode. I'm willing to implement it with clustered Vertx.
 
 ## Steps
 
