@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+    implementation("io.micronaut.nats:micronaut-nats")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-http-client")

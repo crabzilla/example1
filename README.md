@@ -4,6 +4,7 @@
 
 * Kotlin
 * Micronaut
+* Vertx (Core and Postgres non-blocking driver)
 * Crabzilla (based on Vertx)
 * Nats Streaming
 * Reactive JOOQ (for read model)
@@ -17,12 +18,13 @@
 ### Applications
 * commands-handler: to receive commands using REST or NATS queues and execute them
 * events-publisher: to scan the event store periodically then publish the new events to a NATS topic
+* events-publisher-ha: same service as above but with High Availability using clustered Vertx (powered by Hazelcast)
 * events-projector: to project events into read model or to project them to integration events and publish them
 * queries-handler: to perform non blocking queries against the read model
 
 ### Runtime architecture
 * commands-handler and queries-handler apps can scale horizontally (many instances) with independence. To attend 80% reads and 20% writes scenarios, for example.
-* events-publisher and events-projector apps should have only one active instance process. Vertical scalability. Single writer principle to achieve processing events in order. For resilience, these processes could work with more instances but only with an efficient active/standby mode. I'm willing to implement it with clustered Vertx.
+* events-publisher and events-projector apps should have only one active instance process. Vertical scalability. Single writer principle to achieve processing events in order. For resilience, these processes could work with more instances but only with an efficient active/standby mode. The example events-publisher-ha accomplish it (horizontal scaling and fail-safe resilience) using clustered Vertx.
 
 ## Steps
 
@@ -69,24 +71,37 @@ cd apps/command-handler
 gradle run
 ```
 
-7. Run events-projector application
-
-```bash
-cd apps/events-projector
-gradle run
-```
-
-8. Run events-publisher application
+7. Run events-publisher (or events-publisher-ha) application
 
 ```bash
 cd apps/events-publisher
 gradle run
 ```
 
-9. Finally, make a request:
+8. Run events-projector application
+
+```bash
+cd apps/events-projector
+gradle run
+```
+
+9. Run queries-handler application
+
+```bash
+cd apps/queries-handler
+gradle run
+```
+
+10. Make a request to commands-handler:
 
 ```bash
 wget -O- http://localhost:8080/hello
+```
+
+11. Finally, make a request to queries-handler:
+
+```bash
+wget -O- http://localhost:8081/customers
 ```
 
 ## Notes

@@ -4,18 +4,16 @@ package com.example1
 import io.github.crabzilla.core.BoundedContextName
 import io.github.crabzilla.stack.EventRecord
 import io.github.crabzilla.stack.EventsPublisher
-import io.micronaut.context.annotation.Context
 import io.nats.streaming.StreamingConnection
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.vertx.core.Vertx
 import org.slf4j.LoggerFactory
-import javax.inject.Singleton
+import java.lang.management.ManagementFactory
 
 /**
  * Publishes domain events to NATS (single writer process)
  */
-//@Singleton
 class AppEventsPublisher(private val vertx: Vertx, private val nats: StreamingConnection) : EventsPublisher {
 
     companion object {

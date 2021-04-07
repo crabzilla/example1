@@ -15,6 +15,7 @@ micronaut {
 dependencies {
     implementation(project(":write-model"))
     implementation(project(":read-model"))
+    implementation("io.micronaut.nats:micronaut-nats")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-http-client")
@@ -24,7 +25,6 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    implementation("io.vertx:vertx-pg-client")
     implementation("io.github.zero88:jooqx-core:1.0.0")
 }
 
