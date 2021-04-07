@@ -8,4 +8,15 @@ val kotlinSerializationVersion = project.properties["kotlinSerializationVersion"
 dependencies {
      implementation("io.github.crabzilla:crabzilla-core:$crabzillaVersion")
      implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion")
+     testImplementation(platform("org.junit:junit-bom:5.7.1"))
+     testImplementation("org.junit.jupiter:junit-jupiter")
+     testImplementation("org.junit.jupiter:junit-jupiter-engine")
+     testImplementation("org.assertj:assertj-core:3.12.2")
+}
+
+tasks.test {
+     useJUnitPlatform()
+     testLogging {
+          events("passed", "skipped", "failed")
+     }
 }
