@@ -45,7 +45,7 @@ suspend fun main(args: Array<String>) {
 					.onSuccess { log.info( "Started ") }
 					.onFailure { log.error("When starting ", it) }
 		} else {
-			log.info("Started as standby since node ${resp.result()} is the current owner of this verticle")
+			log.info("Started as standby since node ${resp.result().body()} is the current owner of this verticle")
 		}
 	}
 
