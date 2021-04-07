@@ -31,8 +31,8 @@
 * `queries-handler`: to perform non blocking queries against the read model
 
 ### Runtime architecture
-* commands-handler and queries-handler apps can scale horizontally (many instances) with independence. To attend 80% reads and 20% writes scenarios, for example.
-* events-publisher and events-projector apps should have only one active instance process. Vertical scalability. Single writer principle to achieve processing events in order. For resilience, these processes could work with more instances but only with an efficient active/standby mode. The example events-publisher-ha accomplish it (horizontal scaling and fail-safe resilience) using clustered Vertx.
+* `commands-handler` and `queries-handler` apps can scale horizontally (many instances) with independence. To attend 80% reads and 20% writes scenarios, for example.
+* `events-publisher` and `events-projector` apps should have only one active instance process. Vertical scalability. Single writer principle to achieve processing events in order. For resilience, these processes could work with more instances but only with an efficient active/standby mode. The example `events-publisher-ha` accomplish it (horizontal scaling and fail-safe resilience) using clustered Vertx.
 
 ## Steps
 
