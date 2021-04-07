@@ -9,7 +9,7 @@
 * Nats Streaming
 * Reactive JOOQ (for read model)
 
-###### Requirements
+## Requirements
 
 * Java 11
 * Maven (tested with 3.5.0+)
