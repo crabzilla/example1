@@ -9,6 +9,13 @@
 * Nats Streaming
 * Reactive JOOQ (for read model)
 
+###### Requirements
+
+* Java 11
+* Maven (tested with 3.5.0+)
+* Docker compose (tested with 1.18.0)
+* Kotlin plugin for your IDE
+
 ## Modules roles
 
 ### Libraries
