@@ -2,12 +2,5 @@ micronaut:
   application:
     name: example1-queries-handler
   server:
-    port: 8084
+    port: 8081
 
-#nats:
-#  cluster-id: test-cluster
-#  client-id: events-projector
-#  user: al
-#  password: alisson
-#  host: localhost
-#  port: 4222

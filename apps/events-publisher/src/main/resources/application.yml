@@ -2,7 +2,7 @@ micronaut:
   application:
     name: example1-events-publisher
   server:
-    port: 8082
+    port: -1
   endpoints:
     all:
       enabled: true

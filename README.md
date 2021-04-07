@@ -17,6 +17,7 @@
 ### Applications
 * commands-handler: to receive commands using REST or NATS queues and execute them
 * events-publisher: to scan the event store periodically then publish the new events to a NATS topic
+* events-publisher-ha: same service as above but with High Availability using clustered Vertx (powered by Hazelcast)
 * events-projector: to project events into read model or to project them to integration events and publish them
 * queries-handler: to perform non blocking queries against the read model
 
@@ -69,24 +70,38 @@ cd apps/command-handler
 gradle run
 ```
 
-7. Run events-projector application
-
-```bash
-cd apps/events-projector
-gradle run
-```
-
-8. Run events-publisher application
+7. Run events-publisher (or events-publisher-ha) application
 
 ```bash
 cd apps/events-publisher
 gradle run
 ```
 
-9. Finally, make a request:
+
+8. Run events-projector application
+
+```bash
+cd apps/events-projector
+gradle run
+```
+
+9. Run queries-handler application
+
+```bash
+cd apps/queries-handler
+gradle run
+```
+
+10. Make a request to commands-handler:
 
 ```bash
 wget -O- http://localhost:8080/hello
+```
+
+11. Finally, make a request to queries-handler:
+
+```bash
+wget -O- http://localhost:8081/customers
 ```
 
 ## Notes

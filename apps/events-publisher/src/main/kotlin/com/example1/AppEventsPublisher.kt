@@ -10,11 +10,12 @@ import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.vertx.core.Vertx
 import org.slf4j.LoggerFactory
+import javax.inject.Singleton
 
 /**
  * Publishes domain events to NATS (single writer process)
  */
-@Context
+//@Singleton
 class AppEventsPublisher(private val vertx: Vertx, private val nats: StreamingConnection) : EventsPublisher {
 
     companion object {
