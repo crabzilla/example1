@@ -77,7 +77,6 @@ cd apps/events-publisher
 gradle run
 ```
 
-
 8. Run events-projector application
 
 ```bash
