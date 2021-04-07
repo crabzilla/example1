@@ -1,0 +1,2 @@
+* if vertx cluster mode is ok, we could merge both events-publisher and events-projector modules into a clustered service
+* what about a vertx broker (receiving a request and publishing it to each subscribers verticles)
