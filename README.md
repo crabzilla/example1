@@ -13,6 +13,7 @@
 
 * Java 11
 * Maven (tested with 3.5.0+)
+* Gradle (tested with latest)
 * Docker compose (tested with 1.18.0)
 * Kotlin plugin for your IDE
 
