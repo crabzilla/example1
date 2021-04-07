@@ -28,7 +28,8 @@ class AppVerticle: AbstractVerticle() {
     override fun start() {
         vertx.eventBus()
             .consumer<String>(singletonEndpoint) { msg ->
-                msg.reply("Hi $ ${msg.body()}. Please notice I'm already working from node $node")
+                log.info("${msg.body()} just asked to start this verticle. I will inform it that I'm already working from this node [$node\"]")
+                msg.reply(node)
             }
         val config = this.config()
         try {
