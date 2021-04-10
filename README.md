@@ -125,8 +125,8 @@ docker-compose up
 
 ## Design #1 - Projecting events using NATS as source
 
-![GitHub Logo](/cqrs-arch-outbox.png)
+![GitHub Logo](/cqrs-arch-nats.png)
 
 ## Design #2 - Projecting events directly from write model db as source
 
-![GitHub Logo](/cqrs-arch-2.png)
+![GitHub Logo](/cqrs-arch-db.png)
