@@ -112,6 +112,12 @@ wget -O- http://localhost:8080/hello
 wget -O- http://localhost:8081/customers
 ```
 
+12. If you want to stress it (using Apache Bench):
+
+```
+ab -n 10000 -c 100 -s 60 http://localhost:8080/hello
+```
+
 ## Notes
 
 1. NATS is running in memory, so the messages are not persistent.
