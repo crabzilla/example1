@@ -1,2 +1,12 @@
 * if vertx cluster mode is ok, we could merge both events-publisher and events-projector modules into a clustered service
 * what about a vertx broker (receiving a request and publishing it to each subscribers verticles)
+
+Um framework light pra Event Sourcing e CQRS, com algumas características estratégicas:
+
+1) um event store com implementação não blocante (usando os drivers do Vertx, que o Micronaut suporta)  e
+2) Idiomático Kotlin:
+    * type safeness (o compilador te ajuda quando esquece de tratar um  comando ou evento)
+    * sem precisar ter construtor default (sem parâmetros) do teu aggregate, honrando a semântica do teu aggregate root
+3) Algumas pitadas de programação funcional: comandos, eventos e até os aggregate roots são imutáveis, as transições
+de estado são baseadas em funções puras (sem side effects).
+

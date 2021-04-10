@@ -26,7 +26,7 @@
 ### Applications
 * `commands-handler`: to receive commands using REST or NATS queues and execute them
 * `events-publisher`: to scan the event store periodically then publish the new events to a NATS topic
-* `events-publisher-ha`: same service as above but with High Availability using clustered Vertx (powered by Hazelcast). The Hazelcast's CP subsystem if enabled, so you have to start it at least 4 times to have a working cluster with HA. Just run `gradle run`.
+* `events-publisher-ha`: same service as above but with High Availability using clustered Vertx (powered by Hazelcast). The Hazelcast's CP subsystem if enabled, so you have to start it at least 3 times to have a working cluster with HA. Just run `gradle run`.
 * `events-projector`: to project events into read model or to project them to integration events and publish them
 * `queries-handler`: to perform non blocking queries against the read model
 
@@ -123,6 +123,10 @@ docker-compose down -v
 docker-compose up
 ```
 
-## Design
+## Design #1 - Projecting events using NATS as source
 
 ![GitHub Logo](/cqrs-arch-outbox.png)
+
+## Design #2 - Projecting events directly from write model db as source
+
+![GitHub Logo](/cqrs-arch-2.png)

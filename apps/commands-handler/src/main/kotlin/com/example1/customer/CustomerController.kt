@@ -3,42 +3,48 @@ package com.example1.customer
 import com.example1.core.customer.Customer
 import com.example1.core.customer.CustomerCommand
 import com.example1.core.customer.CustomerEvent
+import com.example1.customer.CustomerVerticle.Companion.CUSTOMER_COMMAND_ENDPOINT
+import com.example1.infra.localRequest
 import io.github.crabzilla.core.StatefulSession
-import io.github.crabzilla.stack.CommandController
 import io.github.crabzilla.stack.CommandMetadata
 import io.micronaut.context.annotation.Context
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.reactivex.Single
+import io.vertx.core.Vertx
+import io.vertx.core.eventbus.DeliveryOptions
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
 
 @Controller("/hello")
 @Context
-class CustomerController(private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
+class CustomerController(private val vertx: Vertx) {
 
     companion object {
         private val log = LoggerFactory.getLogger(CustomerController::class.java)
     }
 
-    val id = AtomicInteger()
+    val id = AtomicInteger(0)
 
     @Get("/")
     fun index(): Single<StatefulSession.SessionData> {
         val newId = id.incrementAndGet()
-        log.info("*** Will generate a new command $newId")
+        if (log.isDebugEnabled) log.debug("*** Will generate a new command $newId")
         val metadata = CommandMetadata(newId)
-        val command = CustomerCommand.RegisterCustomer(newId, "customer#$id")
+        val command = CustomerCommand.RegisterCustomer(newId, "customer#$newId")
         return Single.create { emitter ->
-            controller.handle(metadata, command)
-                .onFailure {
-                    log.error("Error", it)
-                    emitter.onError(it)
+            val  deliveryOptions = DeliveryOptions().setLocalOnly(true) // .setSendTimeout(45_000) // to make ab test happy
+            vertx.eventBus().localRequest<StatefulSession<Customer, CustomerEvent>>(
+                CUSTOMER_COMMAND_ENDPOINT, Pair(metadata, command), deliveryOptions) {
+                if (it.failed()) {
+                    emitter.onError(it.cause())
+                    log.error("Error", it.cause())
+                    return@localRequest
                 }
-                .onSuccess { session: StatefulSession<Customer, CustomerEvent> ->
-                    log.info("Result: ${session.toSessionData()}")
-                    emitter.onSuccess(session.toSessionData())
-                }
+                val result = it.result().body().toSessionData()
+                if (log.isDebugEnabled) log.debug("Success: $result")
+                emitter.onSuccess(result)
+            }
         }
     }
 

@@ -1,10 +1,12 @@
 package com.example1
 
+import com.example1.customers.CustomerProjectionPublisher
 import io.github.crabzilla.pgc.PgcEventsScanner
 import io.github.crabzilla.pgc.PgcPoolingProjectionVerticle
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
+import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
 import io.vertx.pgclient.PgPool
 import org.slf4j.LoggerFactory
@@ -20,10 +22,14 @@ private class AppFactory {
     @Bean
     @Context
     fun eventsPublisherVerticle(vertx: Vertx,
-                                appEventsPublisher: AppEventsPublisher,
+                                eventsPublisher: CustomerProjectionPublisher,
                                 @Named("writeDb") writeDb: PgPool
     ): PgcPoolingProjectionVerticle {
-        val eventsScanner = PgcEventsScanner(writeDb, "nats-domain-events")
-        return PgcPoolingProjectionVerticle(eventsScanner, appEventsPublisher)
+        val eventsScanner = PgcEventsScanner(writeDb, "customers")
+        val verticle = PgcPoolingProjectionVerticle(eventsScanner, eventsPublisher)
+        val deploymentOptions = DeploymentOptions().setHa(false).setInstances(1)
+        vertx.deployVerticle(verticle, deploymentOptions)
+        return verticle
     }
+
 }

@@ -12,7 +12,8 @@ class VertxFactory {
     @Bean
     @Context
     fun vertx(): Vertx {
-        return Vertx.vertx()
+        val vertx = Vertx.vertx()
+        return vertx
     }
 
     @Bean

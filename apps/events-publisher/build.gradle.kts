@@ -12,8 +12,12 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-management")
     runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+//    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    implementation ("io.vertx:vertx-lang-kotlin")
+//    implementation("io.vertx:vertx-lang-kotlin-coroutines")
 }
+
 
 micronaut {
     runtime("netty")

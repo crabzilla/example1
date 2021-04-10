@@ -6,7 +6,7 @@ fun main(args: Array<String>) {
 
 	build()
 	    .args(*args)
-			.eagerInitSingletons(true)
+			.eagerInitSingletons(false)
 			.packages("com.example1")
 		.start()
 }

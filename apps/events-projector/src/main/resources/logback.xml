@@ -9,15 +9,19 @@
         </encoder>
     </appender>
 
-    <logger name="org.jooq.tools.LoggerListener" level="DEBUG">
+<!--    <logger name="org.jooq.tools.LoggerListener" level="DEBUG">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--    </logger>-->
+
+<!--    <logger name="org.jooq" level="DEBUG">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--    </logger>-->
+
+    <logger name="com.example1" level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.jooq" level="DEBUG">
-        <appender-ref ref="STDOUT"/>
-    </logger>
-
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 

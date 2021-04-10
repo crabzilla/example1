@@ -1,4 +1,4 @@
-package com.example1.customers
+package com.example1.customers.dao
 
 import com.example1.infra.handleVoid
 import com.example1.jooq.tables.CustomerSummary

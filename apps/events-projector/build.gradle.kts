@@ -25,6 +25,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+//    implementation("io.vertx:vertx-lang-kotlin-coroutines")
     implementation("io.github.zero88:jooqx-core:1.0.0")
 }
 

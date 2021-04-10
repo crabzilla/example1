@@ -1,4 +1,4 @@
-package com.example1.customers
+package com.example1.customers.dao
 
 import io.vertx.core.Future
 

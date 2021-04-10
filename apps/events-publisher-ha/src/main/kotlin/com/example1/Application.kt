@@ -5,7 +5,6 @@ import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
 import io.vertx.core.eventbus.EventBus
 import io.vertx.core.json.JsonObject
-import io.vertx.kotlin.coroutines.await
 import org.slf4j.LoggerFactory
 import java.lang.management.ManagementFactory
 
@@ -37,10 +36,13 @@ suspend fun main(args: Array<String>) {
 
 	val node = ManagementFactory.getRuntimeMXBean().name
 
+//	vertx.registerVerticleFactory(MyVerticleFactory())
+
 	vertx.eventBus().request<String>(AppVerticle.singletonEndpoint, node) { resp ->
 		if (resp.failed()) {
 			val config = config()
 			val deploymentOptions = DeploymentOptions().setHa(true).setInstances(1).setConfig(config)
+//				vertx.deployVerticle("events.publisher:${AppVerticle::class.java.name}", deploymentOptions)
 				vertx.deployVerticle(AppVerticle::class.java.name, deploymentOptions)
 					.onSuccess { log.info( "Started ") }
 					.onFailure { log.error("When starting ", it) }
