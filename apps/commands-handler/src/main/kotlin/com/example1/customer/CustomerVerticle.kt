@@ -25,7 +25,7 @@ class CustomerVerticle : AbstractVerticle() {
             if (log.isDebugEnabled) log.debug("Received ${message.body()}")
             controller.handle(message.body().first, message.body().second as CustomerCommand)
                 .onFailure {
-                    message.fail(500, it.cause?.message ?: "I'm sorry")
+                    message.fail(500, it.message ?: "I'm sorry")
                 }
                 .onSuccess { result: StatefulSession<Customer, CustomerEvent> ->
                     message.localReply(result)

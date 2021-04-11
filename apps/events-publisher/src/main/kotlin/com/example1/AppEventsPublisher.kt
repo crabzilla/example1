@@ -26,8 +26,8 @@ class AppEventsPublisher(private val vertx: Vertx, private val nats: StreamingCo
         log.info("I'm up and will publish events to ${boundedContextName.name}")
     }
 
-    override fun publish(event: EventRecord): Future<Long> {
-        val promise = Promise.promise<Long>()
+    override fun publish(event: EventRecord): Future<Void> {
+        val promise = Promise.promise<Void>()
         vertx.executeBlocking<Long>({ promise2 ->
             if (log.isDebugEnabled) log.debug("Will publish $event to ${boundedContextName.name}")
             nats.publish(boundedContextName.name, event.toJsonObject().toBuffer().bytes)
@@ -38,7 +38,7 @@ class AppEventsPublisher(private val vertx: Vertx, private val nats: StreamingCo
                 promise.fail(ar.cause())
                 log.error("When publishing event", ar.cause())
             } else {
-                promise.complete(ar.result())
+                promise.complete()
             }
         })
         return promise.future()

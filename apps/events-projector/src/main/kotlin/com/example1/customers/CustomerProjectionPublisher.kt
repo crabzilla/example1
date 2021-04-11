@@ -27,8 +27,8 @@ class CustomerProjectionPublisher(private val vertx: Vertx) : EventsPublisher {
 
     // https://docs.hazelcast.com/imdg/4.2/data-structures/fencedlock.html
 
-    override fun publish(event: EventRecord): Future<Long> {
-        val promise = Promise.promise<Long>()
+    override fun publish(event: EventRecord): Future<Void> {
+        val promise = Promise.promise<Void>()
 //        promise.complete(event.eventId)
         val asJson = event.toJsonObject()
         vertx.eventBus().request<Void>(CustomerProjectionVerticle.ENDPOINT, asJson) { ar ->
@@ -39,7 +39,7 @@ class CustomerProjectionPublisher(private val vertx: Vertx) : EventsPublisher {
                 //  if (log.isDebugEnabled) {
                 //      log.debug("Successfully projected event ${eventRecord.eventId} to ${CustomerProjectionVerticle.ENDPOINT}")
                 //  }
-                promise.complete(event.eventId)
+                promise.complete()
             }
         }
         return promise.future()
