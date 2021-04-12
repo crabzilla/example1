@@ -1,4 +1,4 @@
-package com.example1.customer
+package com.example1.customer.style2
 
 import com.example1.core.customer.Customer
 import com.example1.core.customer.CustomerCommand

@@ -29,16 +29,15 @@ class CustomerProjectionPublisher(private val vertx: Vertx) : EventsPublisher {
 
     override fun publish(event: EventRecord): Future<Void> {
         val promise = Promise.promise<Void>()
-//        promise.complete(event.eventId)
         val asJson = event.toJsonObject()
         vertx.eventBus().request<Void>(CustomerProjectionVerticle.ENDPOINT, asJson) { ar ->
             if (ar.failed()) {
                 log.error("When projecting $asJson to ${CustomerProjectionVerticle.ENDPOINT}", ar.cause())
                 promise.fail(ar.cause())
             } else {
-                //  if (log.isDebugEnabled) {
-                //      log.debug("Successfully projected event ${eventRecord.eventId} to ${CustomerProjectionVerticle.ENDPOINT}")
-                //  }
+                if (log.isDebugEnabled) {
+                    log.debug("Successfully projected event ${event.eventId} to ${CustomerProjectionVerticle.ENDPOINT}")
+                }
                 promise.complete()
             }
         }

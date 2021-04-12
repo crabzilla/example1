@@ -3,7 +3,7 @@ package com.example1
 import com.example1.core.customer.Customer
 import com.example1.core.customer.CustomerCommand
 import com.example1.core.customer.CustomerEvent
-import com.example1.customer.CustomerVerticle
+import com.example1.customer.style2.CustomerVerticle
 import com.example1.infra.registerLocalCodec
 import io.github.crabzilla.stack.CommandController
 import io.micronaut.context.event.ShutdownEvent
@@ -34,17 +34,22 @@ class AppEventListener {
     @EventListener
     internal fun onStartupEvent(event: StartupEvent) {
         vertx.registerLocalCodec()
-        val deploymentOptions = DeploymentOptions().setHa(false)
-        (1..4)
-            .asSequence()
-            .map { CustomerVerticle() }
-            .toList()
-            .onEach { verticle ->
-                verticle.controller = controller
-                vertx.deployVerticle(verticle, deploymentOptions)
-                    .onSuccess { log.info("Successfully started $it") }
-                    .onFailure { log.error("When starting", it) }
-            }
+//        val deploymentOptions = DeploymentOptions().setHa(false).setInstances(4)
+//        vertx.deployVerticle(CustomerVerticle::class.java.name, deploymentOptions)
+//            .onSuccess { log.info("Successfully started $it") }
+//            .onFailure { log.error("When starting", it) }
+
+//        val deploymentOptions = DeploymentOptions().setHa(false).setInstances(1)
+//        (1..4)
+//            .asSequence()
+//            .map { CustomerVerticle() }
+//            .toList()
+//            .onEach { verticle ->
+//                verticle.controller = controller
+//                vertx.deployVerticle(verticle, deploymentOptions)
+//                    .onSuccess { log.info("Successfully started $it") }
+//                    .onFailure { log.error("When starting", it) }
+//            }
     }
 
     @EventListener
