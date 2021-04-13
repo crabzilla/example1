@@ -1,7 +1,7 @@
 package com.example1
 
 import io.github.crabzilla.pgc.PgcEventsScanner
-import io.github.crabzilla.pgc.PgcPoolingProjectionVerticle
+import io.github.crabzilla.stack.PoolingProjectionVerticle
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
@@ -22,8 +22,8 @@ private class AppFactory {
     fun eventsPublisherVerticle(vertx: Vertx,
                                 appEventsPublisher: AppEventsPublisher,
                                 @Named("writeDb") writeDb: PgPool
-    ): PgcPoolingProjectionVerticle {
+    ): PoolingProjectionVerticle {
         val eventsScanner = PgcEventsScanner(writeDb, "nats-domain-events")
-        return PgcPoolingProjectionVerticle(eventsScanner, appEventsPublisher)
+        return PoolingProjectionVerticle(eventsScanner, appEventsPublisher)
     }
 }

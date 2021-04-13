@@ -12,11 +12,9 @@ dependencies {
      testImplementation("org.junit.jupiter:junit-jupiter")
      testImplementation("org.junit.jupiter:junit-jupiter-engine")
      testImplementation("org.assertj:assertj-core:3.12.2")
+     testImplementation("io.kotest:kotest-runner-junit5:4.4.3")
 }
 
-tasks.test {
+tasks.withType<Test> {
      useJUnitPlatform()
-     testLogging {
-          events("passed", "skipped", "failed")
-     }
 }

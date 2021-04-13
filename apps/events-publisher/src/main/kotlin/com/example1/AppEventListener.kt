@@ -1,7 +1,7 @@
 package com.example1
 
 import com.example1.infra.registerLocalCodec
-import io.github.crabzilla.pgc.PgcPoolingProjectionVerticle
+import io.github.crabzilla.stack.PoolingProjectionVerticle
 import io.micronaut.context.event.ShutdownEvent
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
@@ -21,7 +21,7 @@ class AppEventListener {
     @Inject
     lateinit var vertx: Vertx
     @Inject
-    lateinit var publisher: PgcPoolingProjectionVerticle
+    lateinit var publisher: PoolingProjectionVerticle
 
     @EventListener
     internal fun onStartupEvent(event: StartupEvent) {

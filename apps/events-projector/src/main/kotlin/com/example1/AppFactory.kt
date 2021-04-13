@@ -2,7 +2,7 @@ package com.example1
 
 import com.example1.customers.CustomerProjectionPublisher
 import io.github.crabzilla.pgc.PgcEventsScanner
-import io.github.crabzilla.pgc.PgcPoolingProjectionVerticle
+import io.github.crabzilla.stack.PoolingProjectionVerticle
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
@@ -24,9 +24,9 @@ private class AppFactory {
     fun eventsPublisherVerticle(vertx: Vertx,
                                 eventsPublisher: CustomerProjectionPublisher,
                                 @Named("writeDb") writeDb: PgPool
-    ): PgcPoolingProjectionVerticle {
+    ): PoolingProjectionVerticle {
         val eventsScanner = PgcEventsScanner(writeDb, "customers")
-        val verticle = PgcPoolingProjectionVerticle(eventsScanner, eventsPublisher)
+        val verticle = PoolingProjectionVerticle(eventsScanner, eventsPublisher)
         val deploymentOptions = DeploymentOptions().setHa(false).setInstances(1)
         vertx.deployVerticle(verticle, deploymentOptions)
         return verticle

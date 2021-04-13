@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 /**
  * Not an exhaustive test. Just as an example on how to test a domain.
  */
+
 class CustomerStateChangeTest {
 
   @Nested

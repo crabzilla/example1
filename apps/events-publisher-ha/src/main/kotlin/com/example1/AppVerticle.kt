@@ -3,7 +3,7 @@ package com.example1
 import com.example1.infra.NatsStreamFactory
 import com.example1.infra.WriteModelPgClientFactory
 import io.github.crabzilla.pgc.PgcEventsScanner
-import io.github.crabzilla.pgc.PgcPoolingProjectionVerticle
+import io.github.crabzilla.stack.PoolingProjectionVerticle
 import io.nats.streaming.StreamingConnection
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.DeploymentOptions
@@ -36,7 +36,7 @@ class AppVerticle: AbstractVerticle() {
             streamingConnection = NatsStreamFactory().createNatConnection(config)
             val eventsScanner = PgcEventsScanner(writeDb, "nats-domain-events")
             val eventsPublisher = AppEventsPublisher(com.example1.vertx, streamingConnection)
-            val verticle = PgcPoolingProjectionVerticle(eventsScanner, eventsPublisher)
+            val verticle = PoolingProjectionVerticle(eventsScanner, eventsPublisher)
             val deploymentOptions = DeploymentOptions().setHa(true).setInstances(1).setConfig(config)
             vertx.deployVerticle(verticle, deploymentOptions)
                 .onFailure {

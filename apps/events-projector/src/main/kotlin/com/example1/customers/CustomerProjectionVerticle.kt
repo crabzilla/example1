@@ -35,7 +35,7 @@ class CustomerProjectionVerticle(@Named("jooq-style") private val repo: Customer
 
     private fun project(id: Int, eventAsJson: JsonObject): Future<Void> {
         val event = customerJson.decodeFromString(DOMAIN_EVENT_SERIALIZER, eventAsJson.toString()) as CustomerEvent
-       //  if (log.isDebugEnabled) log.debug("Will project event $event to read model")
+        if (log.isDebugEnabled) log.debug("Will project event $event to read model")
         return when (event) {
             is CustomerEvent.CustomerRegistered -> repo.upsert(id, event.name, false)
             is CustomerEvent.CustomerActivated -> repo.updateStatus(id, true)
