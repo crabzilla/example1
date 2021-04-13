@@ -1,9 +1,9 @@
 package com.example1.customers
 
-import com.example1.core.customer.CustomerEvent
-import com.example1.core.customer.CustomerSerialization.customerJson
 import com.example1.customers.dao.CustomerWriteDao
 import io.github.crabzilla.core.DOMAIN_EVENT_SERIALIZER
+import io.github.crabzilla.example1.CustomerEvent
+import io.github.crabzilla.example1.customerJson
 import io.micronaut.context.annotation.Context
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future

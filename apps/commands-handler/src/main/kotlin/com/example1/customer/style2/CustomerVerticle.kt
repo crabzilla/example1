@@ -1,11 +1,11 @@
 package com.example1.customer.style2
 
-import com.example1.core.customer.Customer
-import com.example1.core.customer.CustomerCommand
-import com.example1.core.customer.CustomerEvent
 import com.example1.infra.localReply
 import io.github.crabzilla.core.Command
 import io.github.crabzilla.core.StatefulSession
+import io.github.crabzilla.example1.Customer
+import io.github.crabzilla.example1.CustomerCommand
+import io.github.crabzilla.example1.CustomerEvent
 import io.github.crabzilla.stack.CommandController
 import io.github.crabzilla.stack.CommandMetadata
 import io.vertx.core.AbstractVerticle

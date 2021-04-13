@@ -1,9 +1,10 @@
-import com.example1.core.customer.Customer
-import com.example1.core.customer.CustomerCommand
-import com.example1.core.customer.CustomerCommandHandler.handleCommand
-import com.example1.core.customer.CustomerEvent
-import com.example1.core.customer.customerEventHandler
+
 import io.github.crabzilla.core.Snapshot
+import io.github.crabzilla.example1.Customer
+import io.github.crabzilla.example1.CustomerCommand
+import io.github.crabzilla.example1.CustomerCommandHandler.handleCommand
+import io.github.crabzilla.example1.CustomerEvent
+import io.github.crabzilla.example1.customerEventHandler
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

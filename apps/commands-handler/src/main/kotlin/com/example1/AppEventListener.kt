@@ -1,15 +1,13 @@
 package com.example1
 
-import com.example1.core.customer.Customer
-import com.example1.core.customer.CustomerCommand
-import com.example1.core.customer.CustomerEvent
-import com.example1.customer.style2.CustomerVerticle
 import com.example1.infra.registerLocalCodec
+import io.github.crabzilla.example1.Customer
+import io.github.crabzilla.example1.CustomerCommand
+import io.github.crabzilla.example1.CustomerEvent
 import io.github.crabzilla.stack.CommandController
 import io.micronaut.context.event.ShutdownEvent
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
-import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
 import io.vertx.pgclient.PgPool
 import org.slf4j.LoggerFactory
