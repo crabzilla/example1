@@ -1,19 +1,40 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
+
 export let options = {
-  max_vus: 1000,
-  vus: 500,
-  stages: [
-    { duration: '30s', target: 5 },
-    { duration: '1m', target: 100 },
-    { duration: '2m', target: 500 },
-    { duration: '30s', target: 5 }
-  ]
+  discardResponseBodies: true,
+  scenarios: {
+    contacts: {
+      executor: 'shared-iterations',
+      vus: 100,
+      iterations: 10000,
+      maxDuration: '5m',
+    },
+  },
 };
 
+//export let options = {
+//  max_vus: 1000,
+//  vus: 100,
+//  stages: [
+//    { duration: '10s', target: 100 },
+//    { duration: '2m', target: 1000 }
+//  ]
+//};
+
 export default function () {
-  let res = http.get('http://localhost:8080/hello1');
-  check(res, { 'status was 200': (r) => r.status == 200 });
-  sleep(1);
+  const BASE_URL = 'http://localhost:8080'; // make sure this is not production
+  let responses = http.batch([
+    [
+      'GET',
+      `${BASE_URL}/hello1`,
+      null,
+      { tags: { name: 'Customer register commands' } },
+    ]
+  ]);
+   check(responses, {
+      'is status 200': (r) => r.status === 200,
+    });
+  // sleep(1);
 }
