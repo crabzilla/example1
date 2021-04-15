@@ -28,7 +28,7 @@ export default function () {
   let responses = http.batch([
     [
       'GET',
-      `${BASE_URL}/hello1`,
+      `${BASE_URL}/hello`,
       null,
       { tags: { name: 'Customer register commands' } },
     ]
