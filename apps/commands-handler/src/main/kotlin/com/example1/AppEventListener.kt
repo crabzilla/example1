@@ -1,10 +1,6 @@
 package com.example1
 
 import com.example1.infra.registerLocalCodec
-import io.github.crabzilla.example1.Customer
-import io.github.crabzilla.example1.CustomerCommand
-import io.github.crabzilla.example1.CustomerEvent
-import io.github.crabzilla.stack.CommandController
 import io.micronaut.context.event.ShutdownEvent
 import io.micronaut.context.event.StartupEvent
 import io.micronaut.runtime.event.annotation.EventListener
@@ -24,30 +20,12 @@ class AppEventListener {
 
     @Inject
     lateinit var vertx: Vertx
-    @Inject
-    lateinit var controller: CommandController<Customer, CustomerCommand, CustomerEvent>
     @Named("writeDb")
     lateinit var writeDb: PgPool
 
     @EventListener
     internal fun onStartupEvent(event: StartupEvent) {
         vertx.registerLocalCodec()
-//        val deploymentOptions = DeploymentOptions().setHa(false).setInstances(4)
-//        vertx.deployVerticle(CustomerVerticle::class.java.name, deploymentOptions)
-//            .onSuccess { log.info("Successfully started $it") }
-//            .onFailure { log.error("When starting", it) }
-
-//        val deploymentOptions = DeploymentOptions().setHa(false).setInstances(1)
-//        (1..4)
-//            .asSequence()
-//            .map { CustomerVerticle() }
-//            .toList()
-//            .onEach { verticle ->
-//                verticle.controller = controller
-//                vertx.deployVerticle(verticle, deploymentOptions)
-//                    .onSuccess { log.info("Successfully started $it") }
-//                    .onFailure { log.error("When starting", it) }
-//            }
     }
 
     @EventListener

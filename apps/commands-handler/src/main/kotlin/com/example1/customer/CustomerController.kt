@@ -13,7 +13,7 @@ import io.reactivex.Single
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
 
-@Controller("/hello1")
+@Controller("/hello")
 @Context
 class CustomerController(private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
 
