@@ -1,6 +1,5 @@
 package com.example1.projections.customers
 
-import com.example1.projections.customers.dao.CustomerWriteDao
 import io.github.crabzilla.core.DOMAIN_EVENT_SERIALIZER
 import io.github.crabzilla.example1.CustomerEvent
 import io.github.crabzilla.example1.customerJson
@@ -12,7 +11,7 @@ import org.slf4j.LoggerFactory
 import javax.inject.Named
 
 @Context
-class CustomerProjectorVerticle(@Named("jooq-style") private val repo: CustomerWriteDao) : AbstractVerticle() {
+class CustomerProjectorVerticle(@Named("scylla-style") private val repo: CustomerWriteDao) : AbstractVerticle() {
 
     companion object {
         private val log = LoggerFactory.getLogger(CustomerProjectorVerticle::class.java)

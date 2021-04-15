@@ -1,6 +1,7 @@
-package com.example1.projections.customers.dao
+package com.example1.projections.customers.postgress
 
 import com.example1.infra.handleVoid
+import com.example1.projections.customers.CustomerWriteDao
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.vertx.pgclient.PgPool

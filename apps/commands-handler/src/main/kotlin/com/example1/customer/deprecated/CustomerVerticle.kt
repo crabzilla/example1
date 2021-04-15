@@ -1,4 +1,4 @@
-package com.example1.customer.style2
+package com.example1.customer.deprecated
 
 import com.example1.infra.localReply
 import io.github.crabzilla.core.Command

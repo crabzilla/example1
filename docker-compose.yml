@@ -2,13 +2,6 @@ version: '3.1'
 
 services:
 
-#  command:
-#    build: ./apps/commands-handler/
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - db
-
   nats:
     image: 'nats-streaming'
     expose:
@@ -20,6 +13,11 @@ services:
       - "6222:6222"
       - "8222:8222"
     hostname: nats-streaming-server
+#    networks:
+#      - example1-network
+    volumes:
+      - nats:/datastore
+    restart: unless-stopped
 
   db:
     image: postgres:11-alpine
@@ -28,15 +26,39 @@ services:
       POSTGRES_PASSWORD: pwd1
 #        PGDATA: /data/postgres
     volumes:
-#        - /data/postgres:/data/postgres
+      - /data/postgres:/data/postgres
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
-#      networks:
-#        - postgres
+#    networks:
+#      - example1-network
     restart: unless-stopped
 
-#  hazelcast:
-#    image: hazelcast/hazelcast:4.0.2
-#    ports:
-#      - 5701
+  scylla:
+    image: scylladb/scylla:latest
+#    networks:
+#      - example1-network
+    expose:
+      - "9042"
+      - "9142"
+    ports:
+      - "9042:9042"
+      - "9142:9142"
+      - "9160:9160"
+      - "10000:10000"
+    volumes:
+      - scylla:/var/lib/scylla
+    command: "--smp 1 --memory 750M --overprovisioned 1 --api-address 0.0.0.0"
+    restart: unless-stopped
+
+volumes:
+  nats:
+  scylla:
+
+#networks:
+#  example1-network:
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 10.103.0.1/16
+

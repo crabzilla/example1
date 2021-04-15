@@ -1,5 +1,6 @@
-package com.example1.projections.customers
+package com.example1.projections.customers.deprecated
 
+import com.example1.projections.customers.CustomerProjectorVerticle
 import io.nats.streaming.Message
 import io.nats.streaming.MessageHandler
 import io.nats.streaming.StreamingConnection
@@ -14,6 +15,7 @@ import javax.inject.Singleton
 
 @Named("nats-projector")
 @Singleton
+@Deprecated("Use CustomerProjectionVerticle instead")
 class NatsCustomerProjectionVerticle(private val streamingConnection: StreamingConnection)
     : AbstractVerticle() {
 

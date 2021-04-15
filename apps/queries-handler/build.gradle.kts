@@ -25,6 +25,8 @@ dependencies {
 
     implementation("io.vertx:vertx-pg-client")
     implementation("io.github.zero88:jooqx-core:1.0.0")
+
+    implementation("io.vertx:vertx-cassandra-client")
 }
 
 application {

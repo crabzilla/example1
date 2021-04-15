@@ -1,6 +1,6 @@
-package com.example1.customer.style2
+package com.example1.customer.deprecated
 
-import com.example1.customer.style2.CustomerVerticle.Companion.CUSTOMER_COMMAND_ENDPOINT
+import com.example1.customer.deprecated.CustomerVerticle.Companion.CUSTOMER_COMMAND_ENDPOINT
 import com.example1.infra.localRequest
 import io.github.crabzilla.core.StatefulSession
 import io.github.crabzilla.example1.Customer

@@ -1,4 +1,4 @@
-package com.example1.projections.customers
+package com.example1.queries.customers
 
 import com.example1.infra.handle
 import com.example1.jooq.tables.CustomerSummary.CUSTOMER_SUMMARY
@@ -7,12 +7,14 @@ import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.zero88.jooqx.DSLAdapter
 import io.zero88.jooqx.ReactiveJooqx
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-class CustomersQueryDao(private val jooqx: ReactiveJooqx) {
+@Named("postgress")
+class PostgressCustomersQueryDao(private val jooqx: ReactiveJooqx) : CustomersQueryDao {
 
-    fun all(): Future<List<CustomerSummary>> {
+    override fun all(): Future<List<CustomerSummary>> {
         val promise = Promise.promise<List<CustomerSummary>>()
         val sql = jooqx.dsl().select().from(CUSTOMER_SUMMARY).orderBy(CUSTOMER_SUMMARY.ID)
         val dslAdapter = DSLAdapter.fetchMany(CUSTOMER_SUMMARY, CustomerSummary::class.java)
@@ -21,3 +23,4 @@ class CustomersQueryDao(private val jooqx: ReactiveJooqx) {
     }
 
 }
+
