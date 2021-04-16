@@ -1,4 +1,4 @@
-package com.example1.queries.customers
+package com.example1.customers
 
 import com.example1.infra.handle
 import com.example1.jooq.tables.CustomerSummary.CUSTOMER_SUMMARY

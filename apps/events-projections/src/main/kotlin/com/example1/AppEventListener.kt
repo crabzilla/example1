@@ -1,6 +1,6 @@
 package com.example1
 
-import com.example1.projections.customers.CustomerProjectorVerticle
+import com.example1.customers.CustomerProjectorVerticle
 import com.example1.infra.registerLocalCodec
 import io.github.crabzilla.stack.PoolingProjectionVerticle
 import io.micronaut.context.event.ShutdownEvent

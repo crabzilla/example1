@@ -1,7 +1,7 @@
-package com.example1.projections.customers.scylla
+package com.example1.customers.scylla
 
 import com.datastax.oss.driver.api.core.cql.PreparedStatement
-import com.example1.projections.customers.CustomerWriteDao
+import com.example1.customers.CustomerWriteDao
 import io.vertx.cassandra.CassandraClient
 import io.vertx.core.Future
 import io.vertx.core.Promise

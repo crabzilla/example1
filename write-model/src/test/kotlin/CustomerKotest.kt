@@ -1,16 +1,39 @@
+import io.github.crabzilla.example1.Customer
+import io.github.crabzilla.example1.CustomerEvent
+import io.github.crabzilla.example1.customerEventHandler
 import io.kotest.core.spec.style.BehaviorSpec
+import org.assertj.core.api.Assertions.assertThat
 
 class CustomerKotest : BehaviorSpec({
-    given("a broomstick") {
-        `when`("I sit on it") {
-            then("I should be able to fly") {
-                // test code
+
+    var state: Customer
+
+    given("An inactive customer") {
+        val customerId = 1
+        val name = "Bob"
+        state = Customer.create(id = customerId, name = name).state
+        println(state)
+        When("CustomerActivated event occurs") {
+            val reason = "because I need it"
+            val event2 = CustomerEvent.CustomerActivated(reason)
+            val state2 = customerEventHandler.handleEvent(state, event2)
+            then("the customer is now active") {
+                assertThat(state2).isEqualTo(Customer(id = customerId, name = name, reason = reason, isActive = true))
+                state = state2
             }
         }
-        `when`("I throw it away") {
-            then("it should come back") {
-                // test code
+        println(state)
+        When("CustomerDeactivated event occurs") {
+            val reason = "because I need it again"
+            val event3 = CustomerEvent.CustomerDeactivated(reason)
+            val state3 = customerEventHandler.handleEvent(state, event3)
+            then("the customer is now inactive") {
+                assertThat(state3).isEqualTo(Customer(id = customerId, name = name, reason = reason, isActive = false))
+                state = state3
             }
         }
+        println(state)
     }
+
+
 })

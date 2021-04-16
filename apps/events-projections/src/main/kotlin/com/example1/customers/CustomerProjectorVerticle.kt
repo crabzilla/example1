@@ -1,4 +1,4 @@
-package com.example1.projections.customers
+package com.example1.customers
 
 import io.github.crabzilla.core.DOMAIN_EVENT_SERIALIZER
 import io.github.crabzilla.example1.CustomerEvent

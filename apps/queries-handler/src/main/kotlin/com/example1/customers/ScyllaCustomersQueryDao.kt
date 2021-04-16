@@ -1,4 +1,4 @@
-package com.example1.queries.customers
+package com.example1.customers
 
 import com.example1.jooq.tables.pojos.CustomerSummary
 import io.vertx.cassandra.CassandraClient

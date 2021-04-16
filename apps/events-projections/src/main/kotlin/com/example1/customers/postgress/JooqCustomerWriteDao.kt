@@ -1,8 +1,8 @@
-package com.example1.projections.customers.postgress
+package com.example1.customers.postgress
 
 import com.example1.infra.handleVoid
 import com.example1.jooq.tables.CustomerSummary
-import com.example1.projections.customers.CustomerWriteDao
+import com.example1.customers.CustomerWriteDao
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import io.zero88.jooqx.DSLAdapter

@@ -1,6 +1,6 @@
-package com.example1.projections.customers.deprecated
+package com.example1.customers.deprecated
 
-import com.example1.projections.customers.CustomerProjectorVerticle
+import com.example1.customers.CustomerProjectorVerticle
 import io.nats.streaming.Message
 import io.nats.streaming.MessageHandler
 import io.nats.streaming.StreamingConnection

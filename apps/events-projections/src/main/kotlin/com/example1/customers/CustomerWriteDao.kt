@@ -1,4 +1,4 @@
-package com.example1.projections.customers
+package com.example1.customers
 
 import io.vertx.core.Future
 

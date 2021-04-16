@@ -1,4 +1,4 @@
-package com.example1.customer
+package com.example1.customers
 
 import io.github.crabzilla.core.StatefulSession
 import io.github.crabzilla.example1.Customer
@@ -15,10 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger
 
 @Controller("/hello")
 @Context
-class CustomerController(private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
+class CustomersController(private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
 
     companion object {
-        private val log = LoggerFactory.getLogger(CustomerController::class.java)
+        private val log = LoggerFactory.getLogger(CustomersController::class.java)
     }
 
     val id = AtomicInteger()
@@ -26,6 +26,7 @@ class CustomerController(private val controller: CommandController<Customer, Cus
     @Get("/")
     fun index(): Single<StatefulSession.SessionData> {
         val newId = id.incrementAndGet()
+//        val newId = 100003
         if (log.isDebugEnabled) log.debug("*** Will generate a new command $newId")
         val metadata = CommandMetadata(newId)
         val command = CustomerCommand.RegisterCustomer(newId, "customer#$newId")

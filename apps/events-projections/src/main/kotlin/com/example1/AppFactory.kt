@@ -1,7 +1,7 @@
 package com.example1
 
-import com.example1.projections.customers.CustomerProjectionPublisher
-import com.example1.projections.nats.NatsProjectionPublisher
+import com.example1.customers.CustomerProjectionPublisher
+import com.example1.nats.NatsProjectionPublisher
 import io.github.crabzilla.pgc.PgcEventsScanner
 import io.github.crabzilla.stack.PoolingProjectionVerticle
 import io.micronaut.context.annotation.Factory
