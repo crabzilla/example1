@@ -12,13 +12,15 @@ import io.micronaut.http.annotation.Get
 import io.reactivex.Single
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
+import javax.inject.Named
 
 @Controller("/hello")
 @Context
-class CustomersController(private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
+class TestController(@Named("cassandra")
+                     private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
 
     companion object {
-        private val log = LoggerFactory.getLogger(CustomersController::class.java)
+        private val log = LoggerFactory.getLogger(TestController::class.java)
     }
 
     val id = AtomicInteger()

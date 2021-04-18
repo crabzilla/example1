@@ -1,6 +1,6 @@
 package com.example1.customers
 
-import com.example1.customers.CustomersCommandsController.CustomerRequest.*
+import com.example1.customers.CommandsController.CustomerRequest.*
 import io.github.crabzilla.core.StatefulSession
 import io.github.crabzilla.example1.Customer
 import io.github.crabzilla.example1.CustomerCommand
@@ -17,13 +17,16 @@ import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.Put
 import io.reactivex.Single
 import org.slf4j.LoggerFactory
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Controller("/customers")
-@Context
-class CustomersCommandsController(private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
+@Singleton
+class CommandsController(@Named("cassandra")
+                         private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
 
     companion object {
-        private val log = LoggerFactory.getLogger(CustomersCommandsController::class.java)
+        private val log = LoggerFactory.getLogger(CommandsController::class.java)
     }
 
     sealed class CustomerRequest {
