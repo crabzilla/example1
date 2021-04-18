@@ -10,7 +10,6 @@ import io.github.crabzilla.stack.CommandController
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
-import io.vertx.core.Vertx
 import io.vertx.pgclient.PgPool
 import javax.inject.Named
 
@@ -21,7 +20,7 @@ private class AppFactory {
 
     @Bean
     @Context
-    fun customerCommandController(vertx: Vertx, @Named("writeDb") writeDb: PgPool):
+    fun customerCommandController(@Named("writeDb") writeDb: PgPool):
             CommandController<Customer, CustomerCommand, CustomerEvent> {
         return CommandControllerFactory.createPublishingTo(boundedContextName.name, customerConfig, writeDb)
     }
