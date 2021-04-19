@@ -7,14 +7,16 @@ import io.github.crabzilla.example1.CustomerEvent
 import io.github.crabzilla.stack.CommandController
 import io.github.crabzilla.stack.CommandMetadata
 import io.micronaut.context.annotation.Context
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
 import io.reactivex.Single
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Named
 
-@Controller("/hello")
+@Controller("/")
 @Context
 class TestController(@Named("postgress")
                      private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
@@ -25,8 +27,28 @@ class TestController(@Named("postgress")
 
     val id = AtomicInteger()
 
-    @Get("/")
-    fun index(): Single<StatefulSession.SessionData> {
+    @Get("/hello")
+    fun get(): Single<StatefulSession.SessionData> {
+        val newId = id.incrementAndGet()
+//        val newId = 100003
+        if (log.isDebugEnabled) log.debug("*** Will generate a new command $newId")
+        val metadata = CommandMetadata(newId)
+        val command = CustomerCommand.RegisterCustomer(newId, "customer#$newId")
+        return Single.create { emitter ->
+            controller.handle(metadata, command)
+                .onFailure {
+                    log.error("Error", it)
+                    emitter.onError(it)
+                }
+                .onSuccess { session: StatefulSession<Customer, CustomerEvent> ->
+                    if (log.isDebugEnabled) log.debug("Result: ${session.toSessionData()}")
+                    emitter.onSuccess(session.toSessionData())
+                }
+        }
+    }
+
+    @Post("/hello2")
+    fun post(): Single<StatefulSession.SessionData> {
         val newId = id.incrementAndGet()
 //        val newId = 100003
         if (log.isDebugEnabled) log.debug("*** Will generate a new command $newId")
