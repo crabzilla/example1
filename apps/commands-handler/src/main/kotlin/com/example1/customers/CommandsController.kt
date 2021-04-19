@@ -9,6 +9,7 @@ import io.github.crabzilla.example1.CustomerEvent
 import io.github.crabzilla.stack.CommandController
 import io.github.crabzilla.stack.CommandMetadata
 import io.micronaut.context.annotation.Context
+import io.micronaut.core.annotation.Introspected
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Consumes
@@ -22,16 +23,20 @@ import javax.inject.Singleton
 
 @Controller("/customers")
 @Singleton
-class CommandsController(@Named("cassandra")
+class CommandsController(@Named("postgress")
                          private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
 
     companion object {
         private val log = LoggerFactory.getLogger(CommandsController::class.java)
     }
 
+    @Introspected
     sealed class CustomerRequest {
+        @Introspected
         data class RegisterRequest(val name: String): CustomerRequest()
+        @Introspected
         data class ActivateRequest(val reason: String): CustomerRequest()
+        @Introspected
         data class DeactivateRequest(val reason: String): CustomerRequest()
     }
 

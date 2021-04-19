@@ -16,7 +16,7 @@ import javax.inject.Named
 
 @Controller("/hello")
 @Context
-class TestController(@Named("cassandra")
+class TestController(@Named("postgress")
                      private val controller: CommandController<Customer, CustomerCommand, CustomerEvent>) {
 
     companion object {
