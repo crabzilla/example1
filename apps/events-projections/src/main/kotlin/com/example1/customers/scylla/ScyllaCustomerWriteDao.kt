@@ -6,7 +6,6 @@ import io.vertx.cassandra.CassandraClient
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import org.slf4j.LoggerFactory
-import javax.annotation.PostConstruct
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -16,17 +15,8 @@ class ScyllaCustomerWriteDao(private val cassandra: CassandraClient) : CustomerW
 
     companion object {
         private val log = LoggerFactory.getLogger(ScyllaCustomerWriteDao::class.java)
-        private const val UPSERT = "UPDATE customers_summary set name = ?, is_active = ? where id = ?"
-        private const val UPDATE_STATUS = "UPDATE customers_summary set is_active = ? where id = ? if EXISTS"
-    }
-
-    @PostConstruct
-    fun setup() { cassandra
-        .execute("CREATE KEYSPACE IF NOT EXISTS example1 WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
-        .compose { cassandra.execute("USE example1;") }
-        .compose { cassandra.execute("CREATE TABLE IF NOT EXISTS customers_summary (id INT, name VARCHAR, is_active BOOLEAN, PRIMARY KEY (id));") }
-        .onFailure { log.error("Creating tables", it) }
-        .onSuccess { log.info("Tables successfully created") }
+        private const val UPSERT = "UPDATE example1.customers_summary set name = ?, is_active = ? where id = ?"
+        private const val UPDATE_STATUS = "example1.customers_summary set is_active = ? where id = ? if EXISTS"
     }
 
     override fun upsert(id: Int, name: String, isActive: Boolean): Future<Void> {

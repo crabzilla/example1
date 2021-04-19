@@ -41,17 +41,25 @@ class AppEventListener {
     lateinit var readDb: PgPool
 
     @Inject
-    lateinit var cassandraClient : CassandraClient
+    lateinit var cassandra : CassandraClient
 
     @EventListener
     internal fun onStartupEvent(event: StartupEvent) {
         vertx.registerLocalCodec()
         val deploymentOptions = DeploymentOptions().setHa(false).setInstances(1)
-        vertx.deployVerticle(natsProjectionVerticle, deploymentOptions)
-            .compose { vertx.deployVerticle(customersProjectionVerticle, deploymentOptions) }
-            .compose { vertx.deployVerticle(customerProjectorVerticle, deploymentOptions) }
-            .onSuccess { log.info("Successfully started $it") }
-            .onFailure { log.error("When starting", it) }
+        cassandra
+            .execute("CREATE KEYSPACE IF NOT EXISTS example1 WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
+            .compose { cassandra.execute("USE example1;") }
+            .compose { cassandra.execute("CREATE TABLE IF NOT EXISTS customers_summary (id INT, name VARCHAR, is_active BOOLEAN, PRIMARY KEY (id));") }
+            .onFailure { log.error("Creating tables", it) }
+            .onSuccess {
+                log.info("Tables successfully created")
+                vertx.deployVerticle(natsProjectionVerticle, deploymentOptions)
+                    .compose { vertx.deployVerticle(customersProjectionVerticle, deploymentOptions) }
+                    .compose { vertx.deployVerticle(customerProjectorVerticle, deploymentOptions) }
+                    .onSuccess { log.info("Successfully started $it") }
+                    .onFailure { log.error("When starting", it) }
+            }
     }
 
     @EventListener
@@ -59,7 +67,7 @@ class AppEventListener {
         vertx.close()
         writeDb.close()
         readDb.close()
-        cassandraClient.close()
+        cassandra.close()
     }
 
 }

@@ -5,14 +5,12 @@ import io.github.crabzilla.example1.Customer
 import io.github.crabzilla.example1.CustomerCommand
 import io.github.crabzilla.example1.CustomerEvent
 import io.github.crabzilla.example1.customerConfig
-import io.github.crabzilla.pgc.CommandControllerFactory
 import io.github.crabzilla.stack.CommandController
 import io.micronaut.context.annotation.Bean
-import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Factory
-import io.vertx.core.Vertx
 import io.vertx.pgclient.PgPool
 import javax.inject.Named
+import javax.inject.Singleton
 
 @Factory
 private class AppFactory {
@@ -20,10 +18,21 @@ private class AppFactory {
     val boundedContextName = BoundedContextName("example1")
 
     @Bean
-    @Context
-    fun customerCommandController(vertx: Vertx, @Named("writeDb") writeDb: PgPool):
+    @Singleton
+    @Named("postgress")
+    fun pgCustomerCommandController(@Named("writeDb") writeDb: PgPool):
             CommandController<Customer, CustomerCommand, CustomerEvent> {
-        return CommandControllerFactory.createPublishingTo(boundedContextName.name, customerConfig, writeDb)
+        return io.github.crabzilla.pgc.CommandControllerFactory
+            .createPublishingTo(boundedContextName.name, customerConfig, writeDb)
     }
+
+//    @Bean
+//    @Singleton
+//    @Named("cassandra")
+//    fun cassandraCustomerCommandController(cassandra: CassandraClient):
+//            CommandController<Customer, CustomerCommand, CustomerEvent> {
+//        return io.github.crabzilla.cassandra.CommandControllerFactory
+//            .createPublishingTo(boundedContextName.name, customerConfig, cassandra)
+//    }
 
 }
