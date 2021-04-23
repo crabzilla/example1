@@ -1,5 +1,7 @@
 package com.example1.core.customer
 
+import com.example1.core.customer.CustomerCommand.*
+import com.example1.core.customer.CustomerEvent.*
 import io.github.crabzilla.core.AggregateRoot
 import io.github.crabzilla.core.AggregateRootConfig
 import io.github.crabzilla.core.AggregateRootName
@@ -13,13 +15,7 @@ import io.github.crabzilla.core.Snapshot
 import io.github.crabzilla.core.SnapshotTableName
 import io.github.crabzilla.core.StatefulSession
 import io.github.crabzilla.core.javaModule
-import io.github.crabzilla.example1.CustomerCommand.ActivateCustomer
-import io.github.crabzilla.example1.CustomerCommand.DeactivateCustomer
-import io.github.crabzilla.example1.CustomerCommand.RegisterAndActivateCustomer
-import io.github.crabzilla.example1.CustomerCommand.RegisterCustomer
-import io.github.crabzilla.example1.CustomerEvent.CustomerActivated
-import io.github.crabzilla.example1.CustomerEvent.CustomerDeactivated
-import io.github.crabzilla.example1.CustomerEvent.CustomerRegistered
+
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

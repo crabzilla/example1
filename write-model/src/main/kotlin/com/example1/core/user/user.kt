@@ -12,141 +12,147 @@ import io.github.crabzilla.core.EventHandler
 import io.github.crabzilla.core.Snapshot
 import io.github.crabzilla.core.SnapshotTableName
 import io.github.crabzilla.core.StatefulSession
-import io.github.crabzilla.example1.CustomerCommand.ActivateCustomer
-import io.github.crabzilla.example1.CustomerCommand.DeactivateCustomer
-import io.github.crabzilla.example1.CustomerCommand.RegisterAndActivateCustomer
-import io.github.crabzilla.example1.CustomerCommand.RegisterCustomer
-import io.github.crabzilla.example1.CustomerEvent.CustomerActivated
-import io.github.crabzilla.example1.CustomerEvent.CustomerDeactivated
-import io.github.crabzilla.example1.CustomerEvent.CustomerRegistered
+import io.github.crabzilla.core.javaModule
+import io.github.crabzilla.example1.UserCommand.ActivateUser
+import io.github.crabzilla.example1.UserCommand.DeactivateUser
+import io.github.crabzilla.example1.UserCommand.RegisterAndActivateUser
+import io.github.crabzilla.example1.UserCommand.RegisterUser
+import io.github.crabzilla.example1.UserEvent.UserActivated
+import io.github.crabzilla.example1.UserEvent.UserDeactivated
+import io.github.crabzilla.example1.UserEvent.UserRegistered
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import java.util.UUID
 
 /**
- * Customer events
+ * User events
  */
 @Serializable
-sealed class CustomerEvent : DomainEvent() {
+sealed class UserEvent : DomainEvent() {
   @Serializable
-  @SerialName("CustomerRegistered")
-  data class CustomerRegistered(val id: Int, val name: String) : CustomerEvent()
+  @SerialName("UserRegistered")
+  data class UserRegistered(@Contextual val id: UUID, val name: String) : UserEvent()
 
   @Serializable
-  @SerialName("CustomerActivated")
-  data class CustomerActivated(val reason: String) : CustomerEvent()
+  @SerialName("UserActivated")
+  data class UserActivated(val reason: String) : UserEvent()
 
   @Serializable
-  @SerialName("CustomerDeactivated")
-  data class CustomerDeactivated(val reason: String) : CustomerEvent()
+  @SerialName("UserDeactivated")
+  data class UserDeactivated(val reason: String) : UserEvent()
 }
 
 /**
- * Customer commands
+ * User commands
  */
 @Serializable
-sealed class CustomerCommand : Command() {
+sealed class UserCommand : Command() {
   @Serializable
-  @SerialName("RegisterCustomer")
-  data class RegisterCustomer(val customerId: Int, val name: String) : CustomerCommand()
+  @SerialName("RegisterUser")
+  data class RegisterUser(@Contextual val userId: UUID, val name: String) : UserCommand()
 
   @Serializable
-  @SerialName("ActivateCustomer")
-  data class ActivateCustomer(val reason: String) : CustomerCommand()
+  @SerialName("ActivateUser")
+  data class ActivateUser(val reason: String) : UserCommand()
 
   @Serializable
-  @SerialName("DeactivateCustomer")
-  data class DeactivateCustomer(val reason: String) : CustomerCommand()
+  @SerialName("DeactivateUser")
+  data class DeactivateUser(val reason: String) : UserCommand()
 
   @Serializable
-  @SerialName("RegisterAndActivateCustomer")
-  data class RegisterAndActivateCustomer(val customerId: Int, val name: String, val reason: String) : CustomerCommand()
+  @SerialName("RegisterAndActivateUser")
+  data class RegisterAndActivateUser(@Contextual val userId: UUID, val name: String, val reason: String) : UserCommand()
 }
 
 /**
- * Customer aggregate root
+ * User aggregate root
  */
 @Serializable
-@SerialName("Customer")
-data class Customer(
-  val id: Int,
+@SerialName("User")
+data class User(
+  @Contextual val id: UUID,
   val name: String,
   val isActive: Boolean = false,
   val reason: String? = null
 ) : AggregateRoot() {
 
   companion object {
-    fun create(id: Int, name: String): ConstructorResult<Customer, CustomerEvent> {
-      return ConstructorResult(Customer(id = id, name = name), CustomerRegistered(id = id, name = name))
+    fun create(id: UUID, name: String): ConstructorResult<User, UserEvent> {
+      return ConstructorResult(User(id = id, name = name), UserRegistered(id = id, name = name))
     }
   }
 
-  fun activate(reason: String): List<CustomerEvent> {
-    return listOf(CustomerActivated(reason))
+  fun activate(reason: String): List<UserEvent> {
+    return listOf(UserActivated(reason))
   }
 
-  fun deactivate(reason: String): List<CustomerEvent> {
-    return listOf(CustomerDeactivated(reason))
+  fun deactivate(reason: String): List<UserEvent> {
+    return listOf(UserDeactivated(reason))
   }
 }
 
 /**
  * A command validator. You could use https://github.com/konform-kt/konform
  */
-val customerCmdValidator = CommandValidator<CustomerCommand> { command ->
+val userCmdValidator = CommandValidator<UserCommand> { command ->
   when (command) {
-    is RegisterCustomer -> listOf()
-    is RegisterAndActivateCustomer -> listOf()
-    is ActivateCustomer -> listOf()
-    is DeactivateCustomer -> listOf()
+    is RegisterUser -> listOf()
+    is RegisterAndActivateUser -> listOf()
+    is ActivateUser -> listOf()
+    is DeactivateUser -> listOf()
   }
 }
 
 /**
- * This function will apply an event to customer state
+ * This function will apply an event to user state
  */
-val customerEventHandler = EventHandler<Customer, CustomerEvent> { state, event ->
+val userEventHandler = EventHandler<User, UserEvent> { state, event ->
   when (event) {
-    is CustomerRegistered -> Customer.create(id = event.id, name = event.name).state
-    is CustomerActivated -> state!!.copy(isActive = true, reason = event.reason)
-    is CustomerDeactivated -> state!!.copy(isActive = false, reason = event.reason)
+    is UserRegistered -> User.create(id = event.id, name = event.name).state
+    is UserActivated -> state!!.copy(isActive = true, reason = event.reason)
+    is UserDeactivated -> state!!.copy(isActive = false, reason = event.reason)
   }
 }
 
 /**
- * Customer errors
+ * User errors
  */
-class CustomerAlreadyExists(val id: Int) : IllegalStateException("Customer $id already exists")
+class UserAlreadyExists(val id: UUID) : IllegalStateException("User $id already exists")
 
 /**
- * Customer command handler
+ * User command handler
  */
-object CustomerCommandHandler : CommandHandler<Customer, CustomerCommand, CustomerEvent> {
-  override fun handleCommand(command: CustomerCommand, snapshot: Snapshot<Customer>?):
-    Result<StatefulSession<Customer, CustomerEvent>> {
+object UserCommandHandler : CommandHandler<User, UserCommand, UserEvent> {
+  override fun handleCommand(command: UserCommand, snapshot: Snapshot<User>?):
+    Result<StatefulSession<User, UserEvent>> {
 
       return runCatching {
         when (command) {
 
-          is RegisterCustomer -> {
+          is RegisterUser -> {
             if (snapshot == null)
-              with(Customer.create(id = command.customerId, name = command.name), customerEventHandler)
-            else throw CustomerAlreadyExists(command.customerId)
+              with(User.create(id = command.userId, name = command.name), userEventHandler)
+            else throw UserAlreadyExists(command.userId)
           }
 
-          is RegisterAndActivateCustomer -> {
+          is RegisterAndActivateUser -> {
             if (snapshot == null)
-              with(Customer.create(id = command.customerId, name = command.name), customerEventHandler)
+              with(User.create(id = command.userId, name = command.name), userEventHandler)
                 .execute { it.activate(command.reason) }
-            else throw CustomerAlreadyExists(command.customerId)
+            else throw UserAlreadyExists(command.userId)
           }
 
-          is ActivateCustomer -> {
-            with(snapshot!!, customerEventHandler)
+          is ActivateUser -> {
+            with(snapshot!!, userEventHandler)
               .execute { it.activate(command.reason) }
           }
 
-          is DeactivateCustomer -> {
-            with(snapshot!!, customerEventHandler)
+          is DeactivateUser -> {
+            with(snapshot!!, userEventHandler)
               .execute { it.deactivate(command.reason) }
           }
         }
@@ -154,11 +160,35 @@ object CustomerCommandHandler : CommandHandler<Customer, CustomerCommand, Custom
     }
 }
 
-val customerConfig = AggregateRootConfig(
-  AggregateRootName("Customer"),
-  SnapshotTableName("customer_snapshots"),
-  customerEventHandler,
-  customerCmdValidator,
-  CustomerCommandHandler,
-  customerJson
+/**
+ * kotlinx.serialization
+ */
+@kotlinx.serialization.ExperimentalSerializationApi
+val userModule = SerializersModule {
+  include(javaModule)
+  polymorphic(AggregateRoot::class) {
+    subclass(User::class, User.serializer())
+  }
+  polymorphic(Command::class) {
+    subclass(RegisterUser::class, RegisterUser.serializer())
+    subclass(ActivateUser::class, ActivateUser.serializer())
+    subclass(DeactivateUser::class, DeactivateUser.serializer())
+    subclass(RegisterAndActivateUser::class, RegisterAndActivateUser.serializer())
+  }
+  polymorphic(DomainEvent::class) {
+    subclass(UserRegistered::class, UserRegistered.serializer())
+    subclass(UserActivated::class, UserActivated.serializer())
+    subclass(UserDeactivated::class, UserDeactivated.serializer())
+  }
+}
+
+val userJson = Json { serializersModule = userModule }
+
+val userConfig = AggregateRootConfig(
+  AggregateRootName("User"),
+  SnapshotTableName("user_snapshots"),
+  userEventHandler,
+  userCmdValidator,
+  UserCommandHandler,
+  userJson
 )

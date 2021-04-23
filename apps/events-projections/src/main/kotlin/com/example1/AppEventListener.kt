@@ -50,7 +50,7 @@ class AppEventListener {
         cassandra
             .execute("CREATE KEYSPACE IF NOT EXISTS example1 WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };")
             .compose { cassandra.execute("USE example1;") }
-            .compose { cassandra.execute("CREATE TABLE IF NOT EXISTS customers_summary (id INT, name VARCHAR, is_active BOOLEAN, PRIMARY KEY (id));") }
+            .compose { cassandra.execute("CREATE TABLE IF NOT EXISTS customers_summary (id UUID, name VARCHAR, is_active BOOLEAN, PRIMARY KEY (id));") }
             .onFailure { log.error("Creating tables", it) }
             .onSuccess {
                 log.info("Tables successfully created")

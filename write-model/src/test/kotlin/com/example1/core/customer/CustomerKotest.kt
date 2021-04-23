@@ -1,15 +1,14 @@
-import io.github.crabzilla.example1.Customer
-import io.github.crabzilla.example1.CustomerEvent
-import io.github.crabzilla.example1.customerEventHandler
+package com.example1.core.customer
+
 import io.kotest.core.spec.style.BehaviorSpec
 import org.assertj.core.api.Assertions.assertThat
+import java.util.UUID
 
 class CustomerKotest : BehaviorSpec({
 
     var state: Customer
-
     given("An inactive customer") {
-        val customerId = 1
+        val customerId = UUID.randomUUID()
         val name = "Bob"
         state = Customer.create(id = customerId, name = name).state
         println(state)
