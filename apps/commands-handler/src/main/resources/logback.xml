@@ -9,11 +9,15 @@
         </encoder>
     </appender>
 
-    <logger name="org.jooq.tools.LoggerListener" level="DEBUG">
+    <logger name="io.github.crabzilla" level="INFO">
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <logger name="org.jooq" level="DEBUG">
+    <logger name="org.jooq.tools.LoggerListener" level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="org.jooq" level="INFO">
         <appender-ref ref="STDOUT"/>
     </logger>
 

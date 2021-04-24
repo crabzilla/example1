@@ -6,6 +6,7 @@ import io.vertx.cassandra.CassandraClient
 import io.vertx.core.Future
 import io.vertx.core.Promise
 import org.slf4j.LoggerFactory
+import java.util.UUID
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -19,7 +20,7 @@ class ScyllaCustomerWriteDao(private val cassandra: CassandraClient) : CustomerW
         private const val UPDATE_STATUS = "example1.customers_summary set is_active = ? where id = ? if EXISTS"
     }
 
-    override fun upsert(id: Int, name: String, isActive: Boolean): Future<Void> {
+    override fun upsert(id: UUID, name: String, isActive: Boolean): Future<Void> {
         val promise = Promise.promise<Void>()
         cassandra.prepare(UPSERT)
             .compose { ps: PreparedStatement -> cassandra.execute(ps.bind(name, isActive, id)) }
@@ -32,7 +33,7 @@ class ScyllaCustomerWriteDao(private val cassandra: CassandraClient) : CustomerW
         return promise.future()
     }
 
-    override fun updateStatus(id: Int, isActive: Boolean): Future<Void> {
+    override fun updateStatus(id: UUID, isActive: Boolean): Future<Void> {
         val promise = Promise.promise<Void>()
         cassandra.prepare(UPDATE_STATUS)
             .compose { ps: PreparedStatement -> cassandra.execute(ps.bind(isActive, id)) }

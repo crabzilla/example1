@@ -24,7 +24,7 @@ class ScyllaCustomersQueryDao(private val cassandra: CassandraClient) : Customer
                 val rows = executeWithFullFetch.result()
                     .map { row ->
                         CustomerSummary(
-                            row.getInt("id"),
+                            row.getUuid("id"),
                             row.getString("name"),
                             row.getBoolean("is_active")
                         )

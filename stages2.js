@@ -1,7 +1,18 @@
 import http from 'k6/http';
+import { check, sleep } from 'k6';
 
 export default function () {
-  // const payload = JSON.stringify({ correlationId: ${__VU}${__ITER}-${__VU}${__ITER}, name: name${__VU}${__ITER}, email: user${__VU}${__ITER}@mail.com, password: "123456" });
-  // const params = { headers: { 'Content-Type': 'application/json' } };
-  let r = http.post('http://localhost:8080/hello2');
+  const BASE_URL = 'http://localhost:8080'; // make sure this is not production
+  let responses = http.batch([
+    [
+      'GET',
+      `${BASE_URL}/hello`,
+      null,
+      { tags: { name: 'Customer register commands' } },
+    ]
+  ]);
+   check(responses, {
+      'is status 200': (r) => r.status === 200,
+    });
+  // sleep(1);
 }

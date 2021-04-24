@@ -7,32 +7,28 @@ CREATE DATABASE example1_write OWNER user1;
 -- commands
 
 CREATE TABLE commands (
-      cmd_id BIGSERIAL NOT NULL,
-      ar_id INTEGER NOT NULL,
-      external_cmd_id UUID NOT NULL,
-      correlation_id UUID NOT NULL,
+      cmd_id UUID NOT NULL PRIMARY KEY,
+      ar_id UUID NOT NULL,
       causation_id UUID NOT NULL,
+      correlation_id UUID NOT NULL,
       cmd_payload JSONB NOT NULL,
-      inserted_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE (external_cmd_id),
-      PRIMARY KEY (cmd_id)
+      inserted_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
  ;
 
 -- indexes
 
-CREATE INDEX idx_ext_cmd_id ON commands (external_cmd_id);
+CREATE INDEX idx_ar_id ON commands (ar_id);
 
 -- events
 
 CREATE TABLE events (
       event_id BIGSERIAL NOT NULL,
       event_payload JSONB NOT NULL,
-      ar_name VARCHAR(36) NOT NULL,
-      ar_id INTEGER NOT NULL,
+      ar_name VARCHAR(16) NOT NULL,
+      ar_id UUID NOT NULL,
       version INTEGER NOT NULL,
-      cmd_id BIGINT,
-      -- TODO correlation and causation ids
+      cmd_id UUID,
       inserted_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY (ar_id, event_id)
     )
@@ -44,14 +40,19 @@ CREATE TABLE events (
 CREATE INDEX idx_cmd_id ON events (cmd_id);
 CREATE INDEX idx_ar ON events (ar_name, ar_id);
 
--- 3 partitions
+-- 5 partitions
 
 CREATE TABLE events_0 PARTITION OF events
-    FOR VALUES WITH (MODULUS 3, REMAINDER 0);
+    FOR VALUES WITH (MODULUS 5, REMAINDER 0);
 CREATE TABLE events_1 PARTITION OF events
-    FOR VALUES WITH (MODULUS 3, REMAINDER 1);
+    FOR VALUES WITH (MODULUS 5, REMAINDER 1);
 CREATE TABLE events_2 PARTITION OF events
-    FOR VALUES WITH (MODULUS 3, REMAINDER 2);
+    FOR VALUES WITH (MODULUS 5, REMAINDER 2);
+CREATE TABLE events_3 PARTITION OF events
+    FOR VALUES WITH (MODULUS 5, REMAINDER 3);
+CREATE TABLE events_4 PARTITION OF events
+    FOR VALUES WITH (MODULUS 5, REMAINDER 4);
+
 
 -- projections
 
@@ -67,10 +68,8 @@ INSERT INTO projections (name, last_offset) values ('customers', 0);
 --  snapshots tables
 
 CREATE TABLE customer_snapshots (
-      ar_id INTEGER NOT NULL,
+      ar_id UUID NOT NULL,
       version INTEGER,
       json_content JSONB NOT NULL,
       PRIMARY KEY (ar_id)
     );
-
-
